@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang=“en”>
+
+<head>
+  <meta charset=“utf-8">
+  <title>Single AJAX</title>
+ 
+</head>
+
+<body>
+  <h1>Movie</h1>
+  <div id=“movies”></div>
+  <script src=“https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js“></script>
+  <script type=“text/javascript”>
+    // constructing a queryURL variable we will use instead of the literal string inside of the ajax method
+    //put movie titles into array
+    var movies = [“space+jam”,“Age+of+Ultron”,“spider+man”,“honey+I+shrunk+the+kids”];
+    //run for loop for any movie title in the array
+    for (var i = 0; i < movies.length; i++) {
+       title = movies[i];
+      queryURL = “http://www.omdbapi.com/?t=” + title + “&y=&plot=short&apikey=40e9cece”;
+      //ajax function
+      $.ajax({
+        url: queryURL,
+        method: “GET”
+      }).done(function(response) {
+        console.log(response);
+        console.log(response.BoxOffice);
+        var temp = $(‘<div></div>‘);
+        temp.text(“Title: ” +  response.Title);
+        temp.append(‘<div class=“image”></div>‘);
+        $(‘#movies’).append(temp);
+        temp.find(‘.image’).html(‘<img src=“‘+response.Poster+‘“>‘);
+    });
+    }
+// ---------------------------------------------------------
+    console.log(“This console.log will probably happen first because of asynchronicity.“);
+    var x = 2;
+    var y = 10;
+    var z = 13;
+    console.log(“We can also assign some variables and do some arithmetic while we wait too: 2 + 10 + 13 = “, x + y + z);
+  </script>
+
+</body>
+
+</html>
